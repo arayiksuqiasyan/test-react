@@ -17,16 +17,17 @@ const Todo = () => {
 
     const onSubmitHandler = (data: any) => {
         const {todo} = data
-        if (editedId) {
-            const myTodo: ITodo = {completed: false, message: todo, id: editedId ? editedId : uuidv4()}
-            dispatch(editListItem(myTodo))
-            setValue('todo', '')
-        } else {
-            const myTodo: ITodo = {completed: false, message: todo, id: editedId ? editedId : uuidv4()}
-            dispatch(addListItem(myTodo))
-            setValue('todo', '')
+        if (todo.trim() !== '') {
+            if (editedId) {
+                const myTodo: ITodo = {completed: false, message: todo, id: editedId ? editedId : uuidv4()}
+                dispatch(editListItem(myTodo))
+                setValue('todo', '')
+            } else {
+                const myTodo: ITodo = {completed: false, message: todo, id: editedId ? editedId : uuidv4()}
+                dispatch(addListItem(myTodo))
+                setValue('todo', '')
+            }
         }
-
     };
 
     function filterFn(todo: ITodo) {
