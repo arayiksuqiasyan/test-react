@@ -1,12 +1,12 @@
-import React, {BaseSyntheticEvent} from "react";
+import React, {BaseSyntheticEvent, PropsWithChildren} from "react";
 import classes from './AppButton.module.scss'
 import classNames from "classnames";
 import {Simulate} from "react-dom/test-utils";
 
-interface IProps extends HTMLButtonElement {
-    onClick: () => void,
-    type: "button" | "submit" | "reset"
-    text: string
+interface IProps extends PropsWithChildren {
+    onClick?: () => void,
+    type?: "button" | "submit" | "reset"
+    text?: string
     typeBtn?: 'primary' | 'secondary',
 }
 
@@ -20,7 +20,6 @@ const AppButton = (props: IProps) => {
             className={classNames(classes.container, classes[typeBtn])}
             onClick={onClick}
         >
-            {/*// @ts-ignore*/}
             {children}
         </button>
     )

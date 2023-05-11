@@ -1,6 +1,30 @@
 .container {
   width: 50%;
-  background-color: var(--dark);
   border-radius: 6px;
   padding: 16px;
+
+  .inputWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+    gap: 16px;
+    margin-bottom: 32px;
+
+    .input {
+      color: white;
+      width: 100%;
+      flex: 1;
+      outline: none;
+      padding: 0.8rem 0.6rem;
+      border: 1px solid var(--border-color);
+      background: none;
+      border-radius: 10px;
+      font-size: 16px;
+      letter-spacing: 0.3ch;
+      box-shadow: -4px -4px 6px var(--shadow1), 4px 4px 10px var(--shadow2);
+      transition: border 0.4s ease;
+    }
+  }
+
 }

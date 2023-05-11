@@ -1,0 +1,44 @@
+.item {
+  padding: 12px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  transition: scale 1s ease;
+  box-shadow: -4px -4px 5px #200441, 4px 4px 5px #000000;
+  margin: 5px;
+
+  p {
+    margin-left: 10px;
+    width: calc(100% - 100px);
+    text-align: left;
+  }
+}
+
+.completed {
+  opacity: 0.4;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background: #3f3f3f;
+  }
+
+  &::before {
+    content: "COMPLETED";
+    position: absolute;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    letter-spacing: 0.3ch;
+    height: 100%;
+    z-index: 1;
+    background: rgba(72, 18, 154, 0.616);
+  }
+}

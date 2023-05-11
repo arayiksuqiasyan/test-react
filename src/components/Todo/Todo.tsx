@@ -1,51 +1,65 @@
-import React, {useState} from "react";
+import React from "react";
 import classes from './Todo.module.scss'
-import {palette} from "../../constants";
 import {useForm} from "react-hook-form";
+import {v4 as uuidv4} from 'uuid';
 
-import {TiTickOutline} from 'react-icons/ti'
-import {RiDeleteBin5Line} from 'react-icons/ri'
-import {AiOutlineEdit} from 'react-icons/ai'
+import List from "../List/List";
 import AppButton from "../../UI/AppButton/AppButton";
+import {ITodo} from "../models/todo";
+import {useAppDispatch, useAppSelector} from "../../redux";
+import {addEditableItemId, addListItem, editListItem} from "../../redux/reducers/root-reducer";
 
 const Todo = () => {
-    const [list, setList] = useState([])
-    const {register, handleSubmit} = useForm();
+    const dispatch = useAppDispatch()
+    const {list, editedId} = useAppSelector((state) => state.root)
+
+    const {register, handleSubmit, setValue, watch, setFocus} = useForm();
 
     const onSubmitHandler = (data: any) => {
         const {todo} = data
-        const myTodo = {completed: false, message: todo}
-        // @ts-ignore
-        setList([...list, myTodo])
+        if (editedId) {
+            const myTodo: ITodo = {completed: false, message: todo, id: editedId ? editedId : uuidv4()}
+            dispatch(editListItem(myTodo))
+            setValue('todo', '')
+        } else {
+            const myTodo: ITodo = {completed: false, message: todo, id: editedId ? editedId : uuidv4()}
+            dispatch(addListItem(myTodo))
+            setValue('todo', '')
+        }
 
     };
 
+    function filterFn(todo: ITodo) {
+        const searchValue = watch('search')
+        const regex = new RegExp(searchValue, 'gi')
+        if (!searchValue) return true;
+        return regex.test(todo.message)
+    }
+
+    function onEditHandler(id: string, message: string) {
+        setValue('todo', message)
+        dispatch(addEditableItemId(id))
+        setFocus('todo')
+    }
 
     return (
         <div className={classes.container}>
             <form onSubmit={handleSubmit(onSubmitHandler)}>
-                <input {...register("todo")} />
-                <input {...register("search")} />
-
-                <input type="submit"/>
+                <div className={classes.inputWrapper}>
+                    <input
+                        placeholder={'Enter Todo ...'}
+                        className={classes.input}
+                        {...register("todo")}
+                    />
+                    <input
+                        placeholder={'Search...'}
+                        className={classes.input}
+                        {...register("search")}
+                    />
+                    <AppButton type={'submit'}>Submit</AppButton>
+                </div>
             </form>
-
-            <div>
-                {
-                    list.map((el, i) => {
-                        return (
-                            <div key={el} className={classes.list}>
-                                {/*// @ts-ignore*/}
-                                <span>{el.message}</span>
-                            </div>
-                        )
-                    })
-                }
-            </div>
-
-            {/*<RiDeleteBin5Line/>*/}
-            {/*<TiTickOutline fill={palette.green}/>*/}
-            {/*<AiOutlineEdit/>*/}
+            <List list={list.filter(filterFn)} onEdit={onEditHandler}/>
         </div>
     )
 }
