@@ -1,13 +1,13 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
-import {rootSlice} from "./reducers/root-reducer";
-import {loadState, saveState} from "../utils/localStorage";
 
+import {loadState, saveState} from "../utils/localStorage";
+import {IRootState, rootSlice} from "./reducers/root-reducer";
 
 const rootReducer = combineReducers({
-    root:rootSlice.reducer
+    root: rootSlice.reducer
 })
 
-const persistedState = loadState();
+const persistedState: IRootState = loadState();
 const store = configureStore({
     reducer: rootReducer,
     preloadedState: {
@@ -20,7 +20,7 @@ store.subscribe(() => {
     saveState(store.getState().root);
 });
 
- export type RootState = ReturnType<typeof rootReducer>
- export type AppStore = ReturnType<typeof configureStore>
- export type AppDispatch = AppStore['dispatch']
+export type RootState = ReturnType<typeof rootReducer>
+export type AppStore = ReturnType<typeof configureStore>
+export type AppDispatch = AppStore['dispatch']
 

@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 
 import {ITodo} from "../../components/models/todo";
 
-interface IRootState {
+export interface IRootState {
     list: ITodo[]
     editedId: string
 }
