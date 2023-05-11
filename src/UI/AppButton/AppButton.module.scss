@@ -1,0 +1,21 @@
+.container {
+  padding: 4px 8px;
+  width: fit-content;
+  border-radius: 4px;
+  border: none;
+
+  &.primary {
+    background-color: var(--primary-btn);
+  }
+
+  &.secondary {
+    background-color: var(--secondary-btn);
+  }
+
+  .list{
+    display: flex;
+    flex-direction: column;
+  }
+
+}
+
